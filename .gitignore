@@ -1,0 +1,4 @@
+/emacs-systray-applet
+*.core
+vgcore.*
+*.fifo
