@@ -56,18 +56,7 @@ set_tooltip(char *new)
 gint
 on_left_click(GtkStatusIcon *applet, GdkEvent *event)
 {
-	GtkMenu *menu = gtk_menu_new();
 	LOG("Received a left mouse press!");
-
-	/* GtkWidget *item = gtk_label_new("heyyyy"); */
-	/* gtk_container_add(GTK_CONTAINER(menu), item); */
-	GtkWidget *item = gtk_menu_item_new_with_label("heyyy");
-	gtk_menu_attach(menu, item, 0, 100, 0, 100);
-
-	/* SIGSEGV */
-	assert(menu != NULL);
-	assert(event != NULL);
-	gtk_menu_popup_at_pointer(menu, event);
 	return TRUE;
 }
 
