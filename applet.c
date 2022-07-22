@@ -20,7 +20,7 @@
 #define LOG(...)                                                        \
 	if (options & LOG_TO_STDERR) {                                  \
 		fprintf(stderr, "%s:%s():%i ",                          \
-		        basename(__FILE__), __func__, __LINE__);        \
+			basename(__FILE__), __func__, __LINE__);        \
 		fprintf(stderr, __VA_ARGS__);                           \
 		fputc('\n', stderr);                                    \
 	}
