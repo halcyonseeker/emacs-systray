@@ -54,7 +54,7 @@ set_tooltip(char *new)
 }
 
 gint
-on_left_click(GtkStatusIcon *applet, GdkEvent *event)
+on_left_click(GtkStatusIcon *applet)
 {
 	LOG("Received a left mouse press!");
 	return TRUE;
@@ -64,6 +64,35 @@ gint
 on_right_click(GtkStatusIcon *applet)
 {
 	LOG("Received a right mouse press!");
+	return TRUE;
+}
+
+gint
+on_middle_click(GtkStatusIcon *applet)
+{
+	LOG("Received a middle mouse press!");
+	return TRUE;
+}
+
+gboolean
+button_press(GtkStatusIcon *applet, GdkEventButton *event, gpointer userdata)
+{
+	if (event->type == GDK_BUTTON_PRESS) {
+		switch (event->button) {
+		case 1:
+			on_left_click(applet);
+			break;
+		case 2:
+			on_middle_click(applet);
+			break;
+		case 3:
+			on_right_click(applet);
+			break;
+		default:
+			LOG("Unknown button press: %d", event->button);
+			break;
+		}
+	} else LOG("Unknown evnet type: %d", event->type);
 	return TRUE;
 }
 
@@ -146,9 +175,7 @@ activate(GtkApplication *app, gpointer user_data)
 
 	/* Call our functions when the user interacts with the icon.
  	 * https://docs.gtk.org/gobject/func.signal_connect.html */
-	/* g_signal_connect(applet, "activate", G_CALLBACK(on_left_click), NULL); */
-	g_signal_connect_swapped(applet, "activate", G_CALLBACK(on_left_click), applet);
-	g_signal_connect(applet, "popup-menu", G_CALLBACK(on_right_click), applet);
+	g_signal_connect(applet, "button-press-event", G_CALLBACK(button_press), NULL);
 	g_signal_connect(applet, "query-tooltip", G_CALLBACK(on_hover), applet);
 
 	/* Display applet icon, start fifo listener and enter event loop. */
